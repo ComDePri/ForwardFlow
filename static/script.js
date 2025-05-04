@@ -3,11 +3,12 @@ const BUCKET_NAME = "verbal-fluency-2025";
 let data = [];
 let results = [];
 let timerInterval;
-const gameDuration = 120;
+const gameDuration = 60;
 const inputsPerRound = 30;
+const num_words = 19;
 const colors = ["#fce4ec", "#e0f2f1", "#f3e5f5", "#f0f4c3", "#e3f2fd", "#ffe0b2", "#c8e6c9", "#f8bbd0",
     "#b2dfdb", "#e1bee7", "#dcedc8", "#bbdefb", "#fff3e0", "#e6ee9c", "#e8f5e9", "#f3f5f7", "#f5f5f5"];
-const categories = ["Animals", "Furniture", "Electronics", "Plants"]
+const categories = ["Bear", "Candle", "Table"]
 let category;
 let currentClusterColorIndex = 1;
 let clustered = [];
@@ -41,7 +42,7 @@ function createInputFields() {
 
     const form = document.getElementById("game-form");
     form.innerHTML = ""; // Clear previous round inputs
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < num_words; i++) {
         const input = document.createElement("input");
         input.type = "text";
         input.disabled = true;
@@ -81,6 +82,10 @@ function setupInputEvents() {
                     inputs[index + 1].disabled = false;
                     inputs[index + 1].focus();
                 }
+
+                if (index === num_words - 1) {
+                    endRound();
+                }
             }
         });
     });
@@ -91,11 +96,12 @@ function getUrlParams() {
 
     const categoryIndex = parseInt(urlParams.get("category"), 10) || 0;
     const rounds = parseInt(urlParams.get("numRounds"), 10);
-    const numRounds = (!isNaN(rounds) && rounds >= 1) ? rounds : 1;
-    const time = parseInt(urlParams.get("time"), 10) || 120;
+    const numRounds = (!isNaN(rounds) && rounds >= 1) ? rounds : 3;
+    const time = parseInt(urlParams.get("time"), 10) || 60;
 
-    const clusteringParam = urlParams.get("clustering");
+    const clusteringParam = urlParams.get("clustering") || "true";
     const enableClustering = (clusteringParam && clusteringParam.toLowerCase() === "true");
+    console.log(enableClustering);
 
     return {categoryIndex, numRounds, enableClustering}
 }
