@@ -109,6 +109,12 @@ function getUrlParams() {
 // === Timer ===
 function startTimer(seconds) {
     const timerDisplay = document.getElementById("timer");
+
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
     let timeLeft = seconds;
 
     const updateTimer = () => {
@@ -142,7 +148,10 @@ function endRound() {
 function nextRound() {
     // Hide the clustering phase UI when starting the next round
     alert("Get ready for next round");
-    currentRound++;
+
+    setTimeout(() => {
+
+        currentRound++;
     document.getElementById("clustering-phase").style.display = "none";
     console.log("nextRound: ", currentRound);
 
@@ -162,6 +171,9 @@ function nextRound() {
 
     // Start the timer for the new round
     startTimer(gameDuration);
+
+    }, 0);
+
 }
 
 // === End Game & Clustering ===
