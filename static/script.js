@@ -5,13 +5,13 @@ let results = [];
 let timerInterval;
 const gameDuration = 60;
 const inputsPerRound = 30;
-const num_words = 19;
+const num_words = 100;
 const colors = ["#fce4ec", "#e0f2f1", "#f3e5f5", "#f0f4c3", "#e3f2fd", "#ffe0b2", "#c8e6c9", "#f8bbd0",
     "#b2dfdb", "#e1bee7", "#dcedc8", "#bbdefb", "#fff3e0", "#e6ee9c", "#e8f5e9", "#f3f5f7", "#f5f5f5"];
 const categories = ["Bear", "Candle", "Table"]
 let category;
 let currentClusterColorIndex = 1;
-let clustered = [];
+let clustered = {};
 let selectedStartIndex = null;
 let currentRound = 0;
 
@@ -68,7 +68,8 @@ function setupInputEvents() {
                 startedTyping = true;
             }
 
-            if (e.key === "Enter" && input.value.trim()) {
+            if ((e.key === "Enter"|| e.key === "Tab") && input.value.trim()) {
+                e.preventDefault();
                 data.push({
                     round: currentRound,
                     index: index,
@@ -156,7 +157,7 @@ function nextRound() {
     console.log("nextRound: ", currentRound);
 
     // Reset clustering state
-    clustered = [];
+    clustered = {};
     selectedStartIndex = null;
     currentClusterColorIndex = 1;
 
@@ -188,6 +189,8 @@ function endGame() {
 
 function startClustering() {
     // Hide the input area and timer during clustering
+
+    document.getElementById("submit-clusters").disabled = true;
     document.getElementById("input-area").style.display = "none";
     document.getElementById("timer").style.display = "none";
 
