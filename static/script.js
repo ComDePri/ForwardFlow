@@ -161,25 +161,25 @@ function nextRound() {
     setTimeout(() => {
 
         currentRound++;
-    document.getElementById("clustering-phase").style.display = "none";
-    console.log("nextRound: ", currentRound);
+        document.getElementById("clustering-phase").style.display = "none";
+        console.log("nextRound: ", currentRound);
 
-    // Reset clustering state
-    clustered = {};
-    selectedStartIndex = null;
-    currentClusterColorIndex = 1;
+        // Reset clustering state
+        clustered = {};
+        selectedStartIndex = null;
+        currentClusterColorIndex = 1;
 
-    // Show input area and timer for the new round
-    document.getElementById("input-area").style.display = "block";
-    document.getElementById("timer").style.display = "block";
+        // Show input area and timer for the new round
+        document.getElementById("input-area").style.display = "block";
+        document.getElementById("timer").style.display = "block";
 
-    // Reset the input fields and set up events for the next round
-    updateCategoryInDOM();
-    createInputFields(inputsPerRound);
-    setupInputEvents();
+        // Reset the input fields and set up events for the next round
+        updateCategoryInDOM();
+        createInputFields(inputsPerRound);
+        setupInputEvents();
 
-    // Start the timer for the new round
-    startTimer(gameDuration);
+        // Start the timer for the new round
+        startTimer(gameDuration);
 
     }, 0);
 
