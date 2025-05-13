@@ -107,7 +107,6 @@ function getUrlParams() {
     return {categoryIndex, numRounds, enableClustering}
 }
 
-// === Timer ===
 function startTimer(seconds) {
     const timerDisplay = document.getElementById("timer");
     // Save the start time in persistent storage (using ISO string)
@@ -143,20 +142,6 @@ function startTimer(seconds) {
     timerInterval = setInterval(updateTimer, 1000);
 }
 
-window.addEventListener("load", () => {
-    const storedStartTime = localStorage.getItem('timerStart');
-    const gameDuration = parseInt(localStorage.getItem('gameDuration'), 10);
-    if (storedStartTime && gameDuration) {
-        const elapsed = Math.floor((new Date() - new Date(storedStartTime)) / 1000);
-        if (elapsed < gameDuration) {
-            startTimer(gameDuration); // This will recalculate based on stored start time.
-        } else {
-            // Time is up—handle the round completion
-            document.getElementById("timer").textContent = "0:00";
-            endRound();
-        }
-    }
-});
 
 function endRound() {
     // If clustering is enabled, start clustering phase
@@ -375,3 +360,24 @@ function uploadDataWithRetry(lastTry=false, endTest=true ,retryCount = 5, delay 
         attemptUpload(retryCount);
     });
 }
+
+window.addEventListener("load", () => {
+    const storedStart = localStorage.getItem("timerStart");
+    const storedDuration = localStorage.getItem("timerDuration");
+
+    if (storedStart && storedDuration) {
+        const startTime = parseInt(storedStart);
+        const duration = parseInt(storedDuration);
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const remaining = duration - elapsed;
+
+        if (remaining > 0) {
+            startTimer(remaining);
+        } else {
+            localStorage.removeItem("timerStart");
+            localStorage.removeItem("timerDuration");
+            document.getElementById("timer").textContent = "0:00";
+            endRound();
+        }
+    }
+});
