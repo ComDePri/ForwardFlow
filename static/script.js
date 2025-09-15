@@ -365,7 +365,7 @@ function uploadDataWithRetry(lastTry=false, endTest=true ,retryCount = 5, delay 
                     console.log('Data uploaded successfully:', response);
                     resolve(response);
                     if(endTest) {
-                        window.location.href = getRedirectionUrl();
+                        window.location.href = getRedirectionUrl() ;
                     }
                 },
                 error: function(xhr, status, error) {
