@@ -315,8 +315,8 @@ function submitClusters(){
     const exportData = {
         RoundIndex: currentRound,
         category: category,
-        raw: data.map(it => ({ ...it })),
-        clusters: finalClusters
+        raw: data.map(it => ({ ...it }))
+        //clusters: finalClusters
     };
 
     results.push(exportData);
